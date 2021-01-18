@@ -16,8 +16,11 @@ class AddStatusToTasksTable extends Migration
         Schema::table('tasks', function (Blueprint $table) {
             //
             $table->string('status', 10);
+            $table->unsignedBigInteger('user_id');
+            
+        $table->foreign('user_id')->references('id')->on('users');
         });
-    }
+    
 
     /**
      * Reverse the migrations.
@@ -28,6 +31,7 @@ class AddStatusToTasksTable extends Migration
     {
         Schema::table('tasks', function (Blueprint $table) {
             //
+            $table->dropForeign('tasks_user_id_foreign');
         });
     }
 }
