@@ -16,6 +16,16 @@ class TasksController extends Controller
     public function index()
     {
         $tasks = Task::all();
+        $data = [];
+        if(\Auth::check()) {
+             // 認証済みユーザを取得
+            $user = \Auth::user();
+            
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks,
+                ];
+        }
         
         return view('tasks.index', ['tasks' => $tasks,]);
         //
@@ -45,11 +55,14 @@ class TasksController extends Controller
         $request->validate([
             'status' => 'required|max:10',
             ]);
-
-        $task = new Task;
-        $task->status = $request->status;
-        $task->content = $request->content;
-        $task->save();
+             $task = new Task;
+             $task->status = $request->status;
+             $task->content = $request->content;
+             $task->save();
+            //認証済みユーザの投稿として作成
+            $request->user()->tasks()->create([
+                'content' => $request->content,
+                ]);
 
 
         return redirect(route('tasks.index'));
@@ -113,10 +126,12 @@ class TasksController extends Controller
      */
     public function destroy($id)
     { 
-        $task = Task::findOrFail($id);
-        $task->delete();
-        
+        // idの値で投稿を検索して取得
+        $task = \App\Task::findOrFail($id);
+         // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
+        if (\Auth::id() === $task->user_id) {
+            $task->delete();
+        }
         return redirect('/');
-        //
     }
 }
