@@ -1,6 +1,6 @@
-@if (count($microposts) > 0)
+@if (count($tasks) > 0)
     <ul class="list-unstyled">
-        @foreach ($microposts as $micropost)
+        @foreach ($tasks as $task)
             <li class="media mb-3">
                 <div class="media-body">
                    
@@ -20,6 +20,5 @@
             </li>
         @endforeach
     </ul>
-    {{-- ページネーションのリンク --}}
-    {{ $microposts->links() }}
+   
 @endif
