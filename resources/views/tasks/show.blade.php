@@ -26,4 +26,4 @@
         {!! Form::submit('削除', ['class' => 'btn btn-danger']) !!}
     {!! Form::close() !!}
 
-@endsectionshow.blade
+@endsection
