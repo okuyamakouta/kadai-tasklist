@@ -20,14 +20,14 @@ class TasksController extends Controller
         if(\Auth::check()) {
              // 認証済みユーザを取得
             $user = \Auth::user();
-            $tasks = $user->tasks();
+            $tasks = $user->tasks()->orderBy('created_at', 'desc');
             $data = [
                 'user' => $user,
                 'tasks' => $tasks,
                 ];
         }
         
-        return view('tasks.index', ['tasks' => $tasks,]);
+        return view('welcome', ['tasks' => $tasks,]);
         //
     }
 
