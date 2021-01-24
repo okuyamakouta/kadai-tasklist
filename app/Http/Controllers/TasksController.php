@@ -20,7 +20,7 @@ class TasksController extends Controller
         if(\Auth::check()) {
              // 認証済みユーザを取得
             $user = \Auth::user();
-            
+            $tasks = $user->tasks();
             $data = [
                 'user' => $user,
                 'tasks' => $tasks,
@@ -55,15 +55,16 @@ class TasksController extends Controller
         $request->validate([
             'status' => 'required|max:10',
             ]);
-             $task = new Task;
-             $task->status = $request->status;
-             $task->content = $request->content;
-             $task->save();
+            // $task = new Task;
+            // $task->status = $request->status;
+            // $task->content = $request->content;
+            // $task->save();
             //認証済みユーザの投稿として作成
             $request->user()->tasks()->create([
+                'status'  => $request->status,
+                'user_id' => $request->user()->id,
                 'content' => $request->content,
-                ]);
-
+            ]);
 
         return redirect(route('tasks.index'));
         //
