@@ -27,7 +27,7 @@ class TasksController extends Controller
                 ];
         }
         
-        return view('welcome', ['tasks' => $tasks,]);
+        return view('welcome', ['tasks' => $data,]);
         //
     }
 
