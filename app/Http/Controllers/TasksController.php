@@ -21,17 +21,14 @@ class TasksController extends Controller
              // 認証済みユーザを取得
             $user = \Auth::user();
             $tasks = $user->tasks()->orderBy('created_at', 'desc')->get();
-            // $tasks = $user->tasks; // これはModelが取れる
-            // $tasks = $user->tasks(); // これは (select * from tasks where user_id = ?) みたいなもので、データが取れていない
-            // $tasks = $user->tasks()->orderBy('created_at', 'desc'); // (select * from tasks where user_id = ? order by created_at desc)
-            // $tasks = $user->tasks()->get(); // ここまでやると、ようやくModelが取れる
+            
             $data = [
                 'user' => $user,
                 'tasks' => $tasks,
                 ];
         }
         
-        return view('tasks.index', $data);
+        return view('welcome', ['tasks' => $tasks]);
         //
     }
 
